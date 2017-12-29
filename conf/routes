@@ -1,0 +1,12 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Common API
+GET     /api/v1/product/aloe/:id                com.hm.cosmeticmarket.controllers.ProductController.getById(id: String)
+
+PUT     /api/v1/product/aloe/update             com.hm.cosmeticmarket.controllers.ProductController.update
+
+POST    /api/v1/product/aloe/save               com.hm.cosmeticmarket.controllers.ProductController.save
+
+DELETE  /api/v1/product/aloe/delete/:id         com.hm.cosmeticmarket.controllers.ProductController.delete(id: String)

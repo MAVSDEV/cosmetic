@@ -12,7 +12,7 @@ import java.util.List;
  * Product.
  */
 @Data
-@Entity
+@Entity(name = "product")
 public class Product extends Model {
 
     @Id
@@ -34,9 +34,9 @@ public class Product extends Model {
     private ProductCategory category;
 
     @DbJson
-    private List<ProductProperty> productProperty;
+    private List<ProductProperty> property;
     @DbJson
-    private ProductDescription productDescription;
+    private ProductDescription description;
 
 
     public static Finder<String, Product> find = new Finder<>(Product.class);

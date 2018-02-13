@@ -10,7 +10,7 @@ import java.util.List;
  * Product Category.
  */
 @Data
-@Entity
+@Entity(name = "product_category")
 public class ProductCategory extends Model {
 
     @Id

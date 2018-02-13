@@ -11,6 +11,8 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.List;
+
 /**
  * Product Controller.
  */
@@ -23,6 +25,11 @@ public class ProductController extends Controller {
     public Result getById(String id) {
         Product product = productService.getById(id);
         return ok(Json.toJson(product));
+    }
+
+    public Result getAll() {
+        List<Product> all = productService.getAll();
+        return ok(Json.toJson(all));
     }
 
     @BodyParser.Of(ProductBodyParser.class)

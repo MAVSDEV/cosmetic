@@ -3,6 +3,8 @@
 # ~~~~
 
 # Common API
+
+GET     /api/v1/product/aloe/all                com.hm.cosmeticmarket.controllers.ProductController.getAll()
 GET     /api/v1/product/aloe/:id                com.hm.cosmeticmarket.controllers.ProductController.getById(id: String)
 
 PUT     /api/v1/product/aloe/update             com.hm.cosmeticmarket.controllers.ProductController.update

@@ -6,6 +6,8 @@ import com.hm.cosmeticmarket.models.Product;
 import com.hm.cosmeticmarket.repositiries.ProductRepository;
 import com.hm.cosmeticmarket.services.ProductService;
 
+import java.util.List;
+
 /**
  * Implementation of {@link ProductService}
  */
@@ -14,6 +16,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Inject
     private ProductRepository productRepository;
+
+    @Override
+    public List<Product> getAll() {
+        return productRepository.getAll();
+    }
 
     @Override
     public Product getById(String productId) {

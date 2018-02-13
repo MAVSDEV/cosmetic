@@ -4,11 +4,18 @@ import com.google.inject.Singleton;
 import com.hm.cosmeticmarket.models.Product;
 import com.hm.cosmeticmarket.repositiries.ProductRepository;
 
+import java.util.List;
+
 /**
  * Implementation of {@link ProductRepository}
  */
 @Singleton
 public class ProductRepositoryImpl implements ProductRepository {
+
+    @Override
+    public List<Product> getAll() {
+        return Product.find.all();
+    }
 
     @Override
     public Product getById(String productId) {

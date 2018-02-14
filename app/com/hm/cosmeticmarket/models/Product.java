@@ -22,19 +22,19 @@ public class Product extends Model {
     private String name;
     private String briefDescription;
     private Integer price;
-    private String directions;
     private Integer overallRating;
     private String mainImage;
     private String brand;
+    private String volume;
 
     @DbJson
     private List<String> otherImages;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private ProductCategory category;
+    private ProductCategory productCategory;
 
     @DbJson
-    private List<ProductProperty> property;
+    private List<ProductProperty> properties;
     @DbJson
     private ProductDescription description;
 

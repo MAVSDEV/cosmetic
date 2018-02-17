@@ -8,6 +8,4 @@ import com.hm.cosmeticmarket.services.impl.ProductServiceImpl;
  * Product Service.
  */
 @ImplementedBy(ProductServiceImpl.class)
-public interface ProductService extends CommonService<Product> {
-
-}
+public interface ProductService extends CommonService<Product> {}

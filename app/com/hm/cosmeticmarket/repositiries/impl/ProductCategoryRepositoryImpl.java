@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.hm.cosmeticmarket.models.Product;
 import com.hm.cosmeticmarket.models.ProductCategory;
 import com.hm.cosmeticmarket.repositiries.ProductCategoryRepository;
+import io.ebean.Finder;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,36 +14,11 @@ import java.util.Optional;
  * Implementation of {@link ProductCategoryRepository}.
  */
 @Singleton
-public class ProductCategoryRepositoryImpl implements ProductCategoryRepository {
+public class ProductCategoryRepositoryImpl extends AbstractRepositoryImpl<ProductCategory> implements ProductCategoryRepository {
 
     @Override
-    public List<ProductCategory> getAll() {
-        return ProductCategory.find.all();
-    }
-
-    @Override
-    public ProductCategory getById(String objectId) {
-        return ProductCategory.find.byId(objectId);
-    }
-
-    @Override
-    public ProductCategory getByParamName(String paramName, String value) {
-        return ProductCategory.find.query().where().eq(paramName, value).findUnique();
-    }
-
-    @Override
-    public void save(ProductCategory object) {
-        ProductCategory.db().save(object);
-    }
-
-    @Override
-    public void update(ProductCategory object) {
-        ProductCategory.db().update(object);
-    }
-
-    @Override
-    public void remove(String objectId) {
-        ProductCategory.find.deleteById(objectId);
+    protected Finder<String, ProductCategory> finder() {
+        return ProductCategory.find;
     }
 
     @Override

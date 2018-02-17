@@ -14,39 +14,14 @@ import java.util.List;
  * Implementation of {@link ProductService}.
  */
 @Singleton
-public class ProductCategoryServiceImpl implements ProductCategoryService {
+public class ProductCategoryServiceImpl extends AbstractServiceImpl<ProductCategory> implements ProductCategoryService {
+
+    private final ProductCategoryRepository productCategoryRepository;
 
     @Inject
-    private ProductCategoryRepository productCategoryRepository;
-
-    @Override
-    public List<ProductCategory> getAll() {
-        return productCategoryRepository.getAll();
-    }
-
-    @Override
-    public ProductCategory getById(String objectId) {
-        return productCategoryRepository.getById(objectId);
-    }
-
-    @Override
-    public ProductCategory getByParamName(String paramName, String value) {
-        return productCategoryRepository.getByParamName(paramName, value);
-    }
-
-    @Override
-    public void save(ProductCategory object) {
-        productCategoryRepository.save(object);
-    }
-
-    @Override
-    public void update(ProductCategory object) {
-        productCategoryRepository.update(object);
-    }
-
-    @Override
-    public void remove(String objectId) {
-        productCategoryRepository.remove(objectId);
+    public ProductCategoryServiceImpl(ProductCategoryRepository productCategoryRepository) {
+        super(productCategoryRepository);
+        this.productCategoryRepository = productCategoryRepository;
     }
 
     @Override

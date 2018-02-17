@@ -11,10 +11,12 @@ $('#submit').click(function (event) {
    var file = $('#image').get(0).files[0];
    var formData = new FormData();
    formData.append('image', file);
+   formData.append('productId', '1');
+   formData.append('pictureId', '1');
    $.ajax({
-       url: '/api/v1/product/aloe/1/image/update',
+       url: '/api/v1/product/image/save',
        data: formData,
-       type: 'PUT',
+       type: 'POST',
        contentType: false,
        processData: false,
        success: function (data) {

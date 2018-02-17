@@ -1,9 +1,11 @@
 package com.hm.cosmeticmarket.controllers;
 
 
+import com.hm.cosmeticmarket.controllers.parsers.ProductCategoryBodyParser;
 import com.hm.cosmeticmarket.models.ProductCategory;
 import com.hm.cosmeticmarket.services.ProductCategoryService;
 import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Result;
 
 import javax.inject.Inject;
@@ -21,6 +23,16 @@ public class ProductCategoryController extends AbstractController<ProductCategor
     public ProductCategoryController(ProductCategoryService productCategoryService) {
         super(productCategoryService, ProductCategory.class);
         this.productCategoryService = productCategoryService;
+    }
+
+    @BodyParser.Of(ProductCategoryBodyParser.class)
+    public Result save() {
+        return super.save(request().body().as(ProductCategory.class));
+    }
+
+    @BodyParser.Of(ProductCategoryBodyParser.class)
+    public Result update() {
+        return super.update();
     }
 
     public Result getByCategoryId(String id) {

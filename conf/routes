@@ -9,7 +9,12 @@ GET     /api/v1/product/aloe/:id                com.hm.cosmeticmarket.controller
 GET     /api/v1/product/aloe/category/:id       com.hm.cosmeticmarket.controllers.ProductCategoryController.getByCategoryId(id: String)
 
 PUT     /api/v1/product/aloe/update             com.hm.cosmeticmarket.controllers.ProductController.update
+PUT     /api/v1/product/aloe/:id/image/update   com.hm.cosmeticmarket.controllers.ProductController.updateImage(id: String)
 
 POST    /api/v1/product/aloe/save               com.hm.cosmeticmarket.controllers.ProductController.save
 
 DELETE  /api/v1/product/aloe/delete/:id         com.hm.cosmeticmarket.controllers.ProductController.delete(id: String)
+
+# test index
+GET     /upload-image.html                      controllers.Assets.at(path="/public/", file="upload-image.html")
+GET     /assets/images/products/*file           controllers.Assets.at(path="/public/images/products/", file)

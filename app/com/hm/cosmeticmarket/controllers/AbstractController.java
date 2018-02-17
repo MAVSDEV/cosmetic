@@ -1,9 +1,7 @@
 package com.hm.cosmeticmarket.controllers;
 
-import com.hm.cosmeticmarket.controllers.parsers.ProductBodyParser;
 import com.hm.cosmeticmarket.services.CommonService;
 import play.libs.Json;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -28,16 +26,14 @@ public abstract class AbstractController <T> extends Controller {
         return ok(Json.toJson(commonService.getAll()));
     }
 
-    @BodyParser.Of(ProductBodyParser.class)
-    public Result save() {
-        commonService.save(request().body().as(type));
-        return ok(type + " file was saved!");
+    public Result save(T t) {
+        commonService.save(t);
+        return ok(type + " object was saved!");
     }
 
-    @BodyParser.Of(ProductBodyParser.class)
     public Result update() {
         commonService.update(request().body().as(type));
-        return ok("Product was updated!");
+        return ok("Object was updated!");
     }
 
     public Result delete(String id) {

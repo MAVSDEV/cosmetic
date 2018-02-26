@@ -13,5 +13,7 @@ import java.util.List;
 @ImplementedBy(ProductCategoryServiceImpl.class)
 public interface ProductCategoryService extends CommonService<ProductCategory> {
 
+    Integer getCountOfAllCategories();
+
     List<Product> getProductsByCategoryId(String categoryId);
 }

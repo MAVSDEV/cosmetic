@@ -25,6 +25,10 @@ public class ProductCategoryController extends AbstractController<ProductCategor
         this.productCategoryService = productCategoryService;
     }
 
+    public Result getCountOfAllCategories() {
+        return ok(productCategoryService.getCountOfAllCategories().toString());
+    }
+
     @BodyParser.Of(ProductCategoryBodyParser.class)
     public Result save() {
         return super.save(request().body().as(ProductCategory.class));

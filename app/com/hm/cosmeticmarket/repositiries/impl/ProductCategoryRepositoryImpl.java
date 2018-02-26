@@ -22,6 +22,11 @@ public class ProductCategoryRepositoryImpl extends AbstractRepositoryImpl<Produc
     }
 
     @Override
+    public Integer getCountOfAllCategories() {
+        return ProductCategory.find.all().size();
+    }
+
+    @Override
     public List<Product> getProductsByCategoryId(String categoryId) {
         List<Product> products = Lists.newArrayList();
         Optional.ofNullable(ProductCategory.find.byId(categoryId))

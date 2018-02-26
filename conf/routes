@@ -5,16 +5,14 @@
 # Common API
 
 GET     /api/v1/product/aloe/all                com.hm.cosmeticmarket.controllers.ProductController.getAll()
+GET     /api/v1/product/aloe/search             com.hm.cosmeticmarket.controllers.ProductController.search
 GET     /api/v1/product/aloe/:id                com.hm.cosmeticmarket.controllers.ProductController.getById(id: String)
 GET     /api/v1/product/aloe/category/:id       com.hm.cosmeticmarket.controllers.ProductCategoryController.getByCategoryId(id: String)
-
-GET     /api/v1/product/image/:id               com.hm.cosmeticmarket.controllers.PictureController.getById(id: String)
-
+GET     /api/v1/product/aloe/category/count     com.hm.cosmeticmarket.controllers.ProductCategoryController.getCountOfAllCategories()
 
 PUT     /api/v1/product/aloe/update             com.hm.cosmeticmarket.controllers.ProductController.update
 
 POST    /api/v1/product/aloe/save               com.hm.cosmeticmarket.controllers.ProductController.save
-POST    /api/v1/product/image/save              com.hm.cosmeticmarket.controllers.PictureController.save
 
 DELETE  /api/v1/product/aloe/delete/:id         com.hm.cosmeticmarket.controllers.ProductController.delete(id: String)
 

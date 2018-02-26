@@ -13,5 +13,7 @@ import java.util.List;
 @ImplementedBy(ProductCategoryRepositoryImpl.class)
 public interface ProductCategoryRepository extends CommonRepository<ProductCategory> {
 
+    Integer getCountOfAllCategories();
+
     List<Product> getProductsByCategoryId(String categoryId);
 }

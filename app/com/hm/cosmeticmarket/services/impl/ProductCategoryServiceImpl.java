@@ -25,6 +25,11 @@ public class ProductCategoryServiceImpl extends AbstractServiceImpl<ProductCateg
     }
 
     @Override
+    public Integer getCountOfAllCategories() {
+        return productCategoryRepository.getCountOfAllCategories();
+    }
+
+    @Override
     public List<Product> getProductsByCategoryId(String categoryId) {
         return productCategoryRepository.getProductsByCategoryId(categoryId);
     }

@@ -1,12 +1,12 @@
-CREATE TABLE product_category (
-    id VARCHAR(255) NOT NULL,
+CREATE TABLE public.product_category (
+    id bigint NOT NULL,
     name VARCHAR(255) NULL,
-    PRIMARY KEY (id)
+    constraint pk_product_category primary key (id)
 );
 
  
-CREATE TABLE product (
-    id VARCHAR(255) NOT NULL,
+CREATE TABLE public.product (
+    id bigint NOT NULL,
     url VARCHAR(255) NULL,
     name VARCHAR(255) NULL,
     main_image VARCHAR(255) NULL,
@@ -15,19 +15,20 @@ CREATE TABLE product (
     other_images VARCHAR(600) NULL,
     properties VARCHAR(600) NULL,
     description VARCHAR(600) NULL,
-    price INT NULL,
-    overall_rating INT NULL,
+    price bigint NULL,
+    overall_rating bigint NULL,
     volume VARCHAR(255) NULL,
-    PRIMARY KEY (id)
+    creation_date DATE NOT NULL DEFAULT '2011-01-26 14:30:00',
+    product_category_id bigint,
+    constraint pk_product primary key (id)
 );
 
- 
-ALTER TABLE product ADD COLUMN product_category_id VARCHAR(255) NULL;
-CREATE INDEX fk_product_category_id_idx ON product (product_category_id);
 
-ALTER TABLE product
-ADD CONSTRAINT fk_product_category_id
- FOREIGN KEY (product_category_id)
- REFERENCES product_category (id)
- ON DELETE NO ACTION
- ON UPDATE NO ACTION;
+--drop sequence if exists product_category_seq;
+--
+--drop sequence if exists product_seq;
+--
+--drop table product;
+--
+--drop table product_category ;
+--

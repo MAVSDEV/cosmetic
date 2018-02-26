@@ -32,7 +32,7 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
         ExpressionList<Product> productExpressionList = prepareWhereCondition();
         addFiltersToExpressionList(productExpressionList, filterMap);
         return productExpressionList
-                .orderBy(sortType.getName() + " " + sortOrder.getName())
+                .orderBy(sortType.getColumnName() + " " + sortOrder.getName())
                 .findList();
     }
 
@@ -42,24 +42,23 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
         ExpressionList<Product> productExpressionList = prepareWhereCondition();
         addFiltersToExpressionList(productExpressionList, filterMap);
         return productExpressionList
-                .ilike(PRODUCT_CATEGORY + "." + NAME_PROPERTY, searchTermFormat)
                 .or()
+                .ilike("t1." + NAME_PROPERTY, searchTermFormat)
                 .ilike(NAME_PROPERTY, searchTermFormat)
-                .or()
                 .ilike(BRIEF_DESCRIPTION, searchTermFormat)
-                .orderBy(sortType.getName() + " " + sortOrder.getName())
+                .orderBy(sortType.getColumnName() + " " + sortOrder.getName())
                 .findList();
     }
 
     private ExpressionList<Product> prepareWhereCondition() {
         return Product.find.query().select("*")
-                .fetch(PRODUCT_CATEGORY)
+                .fetch("productCategory")
                 .where();
     }
 
     private void addFiltersToExpressionList(ExpressionList<Product> expressionList, Map<String, String> filterMap) {
         if (filterMap != null && !filterMap.isEmpty()) {
-            expressionList.ieq(PRODUCT_CATEGORY + "." + NAME_PROPERTY, filterMap.get(FilterType.CATEGORY.getName()));
+            expressionList.ieq("t1." + NAME_PROPERTY, filterMap.get(FilterType.CATEGORY.getName()));
         }
     }
 }

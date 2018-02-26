@@ -8,7 +8,6 @@ import com.hm.cosmeticmarket.repositiries.ProductCategoryRepository;
 import io.ebean.Finder;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Implementation of {@link ProductCategoryRepository}.
@@ -29,8 +28,8 @@ public class ProductCategoryRepositoryImpl extends AbstractRepositoryImpl<Produc
     @Override
     public List<Product> getProductsByCategoryId(String categoryId) {
         List<Product> products = Lists.newArrayList();
-        Optional.ofNullable(ProductCategory.find.byId(categoryId))
-                .ifPresent(productCategory -> products.addAll(productCategory.getProducts()));
+//        Optional.ofNullable(ProductCategory.find.byId(categoryId))
+//                .ifPresent(productCategory -> products.addAll(productCategory.getProducts()));
         return products;
     }
 }

@@ -8,14 +8,16 @@ import lombok.Getter;
 @Getter
 public enum SortType {
 
-    PRICE("price"),
-    NEWEST("newest");
+    PRICE("price", "price"),
+    NEWEST("newest", "creation_date");
 
-    SortType(String name) {
+    SortType(String name, String columnName) {
         this.name = name;
+        this.columnName = columnName;
     }
 
     private String name;
+    private String columnName;
 
     public static SortType getByName(String name) {
         for (SortType sortType: values()) {

@@ -28,7 +28,7 @@ public abstract class AbstractController <T> extends Controller {
 
     public Result save(T t) {
         commonService.save(t);
-        return ok(type + " object was saved!");
+        return ok(type.getSimpleName() + " object was saved!");
     }
 
     public Result update() {
@@ -38,7 +38,7 @@ public abstract class AbstractController <T> extends Controller {
 
     public Result delete(String id) {
         commonService.remove(id);
-        return ok(type + " with id '" + id + "' was deleted!");
+        return ok(type.getSimpleName() + " with id '" + id + "' was deleted!");
     }
 
     private Result getProductByProperty(String property, String value) {

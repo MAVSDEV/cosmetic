@@ -54,7 +54,10 @@ public class ProductController extends AbstractController<Product> {
     @BodyParser.Of(ProductBodyParser.class)
     public Result save() {
         Product product = request().body().as(Product.class);
-        product.setMainImage(DEFAULT_PRODUCT_IMAGE_URL);
+        if (product.getMainImage() == null) {
+            product.setMainImage(DEFAULT_PRODUCT_IMAGE_URL);
+        }
+        product.setCreationDate(new Date());
         return super.save(product);
     }
 

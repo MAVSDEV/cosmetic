@@ -6,6 +6,8 @@ import io.ebean.annotation.DbJson;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,11 +15,10 @@ import java.util.List;
  */
 @Data
 @Entity(name = "product")
-public class Product extends Model {
+public class Product extends Model implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String id;
+    private Long id;
     private String url;
     private String name;
     private String briefDescription;
@@ -26,11 +27,12 @@ public class Product extends Model {
     private String mainImage;
     private String brand;
     private String volume;
+    private Date creationDate;
 
     @DbJson
     private List<String> otherImages;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ProductCategory productCategory;
 
     @DbJson

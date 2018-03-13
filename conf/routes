@@ -4,18 +4,14 @@
 
 # Common API
 
-GET     /api/v1/product/aloe/all                com.hm.cosmeticmarket.controllers.ProductController.getAll()
-GET     /api/v1/product/aloe/search             com.hm.cosmeticmarket.controllers.ProductController.search
-GET     /api/v1/product/aloe/:id                com.hm.cosmeticmarket.controllers.ProductController.getById(id: String)
-GET     /api/v1/product/aloe/category/:id       com.hm.cosmeticmarket.controllers.ProductCategoryController.getByCategoryId(id: String)
-GET     /api/v1/product/aloe/category/count     com.hm.cosmeticmarket.controllers.ProductCategoryController.getCountOfAllCategories()
+GET     /api/v1/product/aloe/all              com.hm.cosmeticmarket.controllers.ProductController.getAll()
+GET     /api/v1/product/aloe/search           com.hm.cosmeticmarket.controllers.ProductController.search
+GET     /api/v1/product/aloe/:id              com.hm.cosmeticmarket.controllers.ProductController.getById(id: String)
+GET     /api/v1/product/aloe/category/:id     com.hm.cosmeticmarket.controllers.ProductCategoryController.getByCategoryId(id: String)
+GET     /api/v1/product/aloe/categories       com.hm.cosmeticmarket.controllers.ProductCategoryController.getAll()
 
-PUT     /api/v1/product/aloe/update             com.hm.cosmeticmarket.controllers.ProductController.update
+PUT     /api/v1/product/aloe/update           com.hm.cosmeticmarket.controllers.ProductController.update
 
-POST    /api/v1/product/aloe/save               com.hm.cosmeticmarket.controllers.ProductController.save
+POST    /api/v1/product/aloe/save             com.hm.cosmeticmarket.controllers.ProductController.save
 
-DELETE  /api/v1/product/aloe/delete/:id         com.hm.cosmeticmarket.controllers.ProductController.delete(id: String)
-
-# test index
-GET     /upload-image.html                      controllers.Assets.at(path="/public/", file="upload-image.html")
-GET     /assets/images/products/*file           controllers.Assets.at(path="/public/images/products/", file)
+DELETE  /api/v1/product/aloe/delete/:id       com.hm.cosmeticmarket.controllers.ProductController.delete(id: String)

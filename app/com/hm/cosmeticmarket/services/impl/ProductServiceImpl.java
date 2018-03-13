@@ -35,4 +35,9 @@ public class ProductServiceImpl extends AbstractServiceImpl<Product> implements 
         return StringUtils.isNotBlank(searchTerm) ? productRepository.search(searchTerm, sortType, sortOrder, filterMap)
                 : productRepository.getAll(sortType, sortOrder, filterMap);
     }
+
+    @Override
+    public Integer getProductsCountByCategoryId(Long id) {
+        return productRepository.getProductsCountByCategoryId(id);
+    }
 }

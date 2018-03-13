@@ -20,7 +20,7 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
 
     private static final String NAME_PROPERTY = "name";
     private static final String BRIEF_DESCRIPTION = "brief_description";
-    private static final String PRODUCT_CATEGORY = "product_category";
+    private static final String PRODUCT_CATEGORY_ID = "product_category_id";
 
     @Override
     protected Finder<String, Product> finder() {
@@ -48,6 +48,13 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
                 .ilike(BRIEF_DESCRIPTION, searchTermFormat)
                 .orderBy(sortType.getColumnName() + " " + sortOrder.getName())
                 .findList();
+    }
+
+    @Override
+    public Integer getProductsCountByCategoryId(Long id) {
+        return Product.find.query().where()
+                .eq(PRODUCT_CATEGORY_ID, id)
+                .findCount();
     }
 
     private ExpressionList<Product> prepareWhereCondition() {

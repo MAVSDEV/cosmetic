@@ -18,6 +18,7 @@ import java.util.List;
 public class Product extends Model implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     private String url;
     private String name;

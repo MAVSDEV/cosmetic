@@ -23,6 +23,13 @@ CREATE TABLE public.product (
     constraint pk_product primary key (id)
 );
 
+CREATE SEQUENCE product_id_seq MINVALUE 10;
+ALTER TABLE product ALTER id SET DEFAULT nextval('product_id_seq');
+ALTER SEQUENCE product_id_seq OWNED BY product.id;
+
+CREATE SEQUENCE product_category_id_seq MINVALUE 10;
+ALTER TABLE product_category ALTER id SET DEFAULT nextval('product_category_id_seq');
+ALTER SEQUENCE product_category_id_seq OWNED BY product_category.id;
 
 --drop sequence if exists product_category_seq;
 --

@@ -49,7 +49,7 @@ public class ProductCategoryController extends AbstractController<ProductCategor
         return super.update();
     }
 
-    public Result getByCategoryId(String id) {
+    public Result getByCategoryId(Long id) {
         return ok(Json.toJson(productCategoryService.getProductsByCategoryId(id)));
     }
 }

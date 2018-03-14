@@ -15,5 +15,5 @@ public interface ProductCategoryService extends CommonService<ProductCategory> {
 
     Integer getCountOfAllCategories();
 
-    List<Product> getProductsByCategoryId(String categoryId);
+    List<Product> getProductsByCategoryId(Long categoryId);
 }

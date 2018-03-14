@@ -52,9 +52,14 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
 
     @Override
     public Integer getProductsCountByCategoryId(Long id) {
+        return getProductsByCategoryId(id).size();
+    }
+
+    @Override
+    public List<Product> getProductsByCategoryId(Long id) {
         return Product.find.query().where()
                 .eq(PRODUCT_CATEGORY_ID, id)
-                .findCount();
+                .findList();
     }
 
     private ExpressionList<Product> prepareWhereCondition() {

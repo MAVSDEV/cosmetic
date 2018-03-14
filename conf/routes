@@ -8,7 +8,7 @@ GET     /api/v1/product/aloe/all              com.hm.cosmeticmarket.controllers.
 GET     /api/v1/product/aloe/categories       com.hm.cosmeticmarket.controllers.ProductCategoryController.getAll()
 GET     /api/v1/product/aloe/search           com.hm.cosmeticmarket.controllers.ProductController.search
 GET     /api/v1/product/aloe/:id              com.hm.cosmeticmarket.controllers.ProductController.getById(id: String)
-GET     /api/v1/product/aloe/category/:id     com.hm.cosmeticmarket.controllers.ProductCategoryController.getByCategoryId(id: String)
+GET     /api/v1/product/aloe/category/:id     com.hm.cosmeticmarket.controllers.ProductCategoryController.getByCategoryId(id: Long)
 
 PUT     /api/v1/product/aloe/update           com.hm.cosmeticmarket.controllers.ProductController.update
 

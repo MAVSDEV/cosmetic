@@ -8,6 +8,7 @@ import com.hm.cosmeticmarket.models.sql.SortType;
 import com.hm.cosmeticmarket.repositiries.ProductRepository;
 import io.ebean.ExpressionList;
 import io.ebean.Finder;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
@@ -15,12 +16,12 @@ import java.util.Map;
 /**
  * Implementation of {@link ProductRepository}
  */
+@Slf4j
 @Singleton
 public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> implements ProductRepository {
 
     private static final String NAME_PROPERTY = "name";
     private static final String BRIEF_DESCRIPTION = "brief_description";
-    private static final String PRODUCT_CATEGORY_ID = "product_category_id";
 
     @Override
     protected Finder<String, Product> finder() {
@@ -51,10 +52,11 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
     }
 
     @Override
-    public Integer getProductsCountByCategoryId(Long id) {
-        return Product.find.query().where()
-                .eq(PRODUCT_CATEGORY_ID, id)
-                .findCount();
+    public long getProductsCountByCategoryName(String name) {
+        log.warn("-----name:" + name);
+        log.warn("=-------all:   " + getAll(SortType.NEWEST, OrderType.ASC, null));
+        return getAll(SortType.NEWEST, OrderType.ASC, null).stream()
+                .filter(product -> name.equalsIgnoreCase(product.getName())).count();
     }
 
     private ExpressionList<Product> prepareWhereCondition() {

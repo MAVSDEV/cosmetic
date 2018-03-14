@@ -17,5 +17,5 @@ public interface ProductService extends CommonService<Product> {
 
     List<Product> search(String searchTerm, SortType sortType, OrderType sortOrder, Map<String, String> filterMap);
 
-    Integer getProductsCountByCategoryId(Long id);
+    long getProductsCountByCategoryName(String name);
 }

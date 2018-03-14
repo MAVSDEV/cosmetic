@@ -37,7 +37,7 @@ public class ProductServiceImpl extends AbstractServiceImpl<Product> implements 
     }
 
     @Override
-    public Integer getProductsCountByCategoryId(Long id) {
-        return productRepository.getProductsCountByCategoryId(id);
+    public long getProductsCountByCategoryName(String name) {
+        return productRepository.getProductsCountByCategoryName(name);
     }
 }

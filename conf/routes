@@ -13,5 +13,6 @@ GET     /api/v1/product/aloe/category/:id     com.hm.cosmeticmarket.controllers.
 PUT     /api/v1/product/aloe/update           com.hm.cosmeticmarket.controllers.ProductController.update
 
 POST    /api/v1/product/aloe/save             com.hm.cosmeticmarket.controllers.ProductController.save
+POST    /api/v1/product/aloe/category/save    com.hm.cosmeticmarket.controllers.ProductCategoryController.save
 
 DELETE  /api/v1/product/aloe/delete/:id       com.hm.cosmeticmarket.controllers.ProductController.delete(id: String)

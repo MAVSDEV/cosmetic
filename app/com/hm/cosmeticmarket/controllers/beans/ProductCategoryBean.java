@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductCategoryBean {
+    private Long id;
     private String name;
     private long products;
 }

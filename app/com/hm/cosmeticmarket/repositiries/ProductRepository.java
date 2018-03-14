@@ -19,5 +19,5 @@ public interface ProductRepository extends CommonRepository<Product> {
 
     List<Product> search(String searchTerm, SortType sortType, OrderType sortOrder, Map<String, String> filterMap);
 
-    long getProductsCountByCategoryName(String name);
+    Integer getProductsCountByCategoryId(Long id);
 }

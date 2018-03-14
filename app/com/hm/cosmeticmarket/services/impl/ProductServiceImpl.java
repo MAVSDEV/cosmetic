@@ -3,8 +3,10 @@ package com.hm.cosmeticmarket.services.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.hm.cosmeticmarket.models.Product;
+import com.hm.cosmeticmarket.models.ProductCategory;
 import com.hm.cosmeticmarket.models.sql.OrderType;
 import com.hm.cosmeticmarket.models.sql.SortType;
+import com.hm.cosmeticmarket.repositiries.ProductCategoryRepository;
 import com.hm.cosmeticmarket.repositiries.ProductRepository;
 import com.hm.cosmeticmarket.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +22,16 @@ import java.util.Map;
 @Singleton
 public class ProductServiceImpl extends AbstractServiceImpl<Product> implements ProductService {
 
+    private static final String NAME_PARAM = "name";
+
     private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
     @Inject
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository) {
         super(productRepository);
         this.productRepository = productRepository;
+        this.productCategoryRepository = productCategoryRepository;
     }
 
     @Override
@@ -37,7 +43,17 @@ public class ProductServiceImpl extends AbstractServiceImpl<Product> implements 
     }
 
     @Override
-    public long getProductsCountByCategoryName(String name) {
-        return productRepository.getProductsCountByCategoryName(name);
+    public long getProductsCountByCategoryId(Long id) {
+        return productRepository.getProductsCountByCategoryId(id);
+    }
+
+    @Override
+    public void save(Product product) {
+        String categoryName = product.getProductCategory().getName();
+        ProductCategory category = productCategoryRepository.getByParamName(NAME_PARAM, categoryName);
+        if (category != null) {
+            product.setProductCategory(category);
+        }
+        productRepository.save(product);
     }
 }

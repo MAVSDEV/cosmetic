@@ -34,7 +34,7 @@ public class ProductCategoryController extends AbstractController<ProductCategor
 
     public Result getAll() {
         List<ProductCategoryBean> productCategoryBeans = productCategoryService.getAll().stream()
-                .map(pc -> new ProductCategoryBean(pc.getName(), productService.getProductsCountByCategoryName(pc.getName())))
+                .map(pc -> new ProductCategoryBean(pc.getId(), pc.getName(), productService.getProductsCountByCategoryId(pc.getId())))
                 .collect(Collectors.toList());
         return ok(Json.toJson(productCategoryBeans));
     }

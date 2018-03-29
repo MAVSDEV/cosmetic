@@ -29,7 +29,6 @@ public class ProductController extends AbstractController<Product> {
     private static final String FILTER_PARAM = "filter";
     private static final String SORT_PARAM = "sort";
     private static final String SEARCH_TERM_QUERY_PARAM = "term";
-    private static final String VALIDATION_REGEX = "[^a-zA-Z_0-9- ]";
 
     private static final String DEFAULT_PRODUCT_IMAGE_URL = "https://s3.amazonaws.com/cosmeticmarket/images/default-store-350x3501519226376420.jpg";
 
@@ -108,8 +107,7 @@ public class ProductController extends AbstractController<Product> {
         if (filterParameter != null) {
             Arrays.asList(filterParameter.split("~"))
                     .forEach(filter -> {
-                        String filterValue = filter.substring(filter.indexOf('[') + 1, filter.length() - 1)
-                                .replaceAll(VALIDATION_REGEX, "").trim();
+                        String filterValue = filter.substring(filter.indexOf('[') + 1, filter.length() - 1).trim();
                         if (!filterValue.isEmpty()) {
                             Optional<FilterType> filterTypeOptional = FilterType.getByName(filter.substring(0, filter.indexOf('[')));
                             filterTypeOptional.ifPresent(filterType -> result.put(

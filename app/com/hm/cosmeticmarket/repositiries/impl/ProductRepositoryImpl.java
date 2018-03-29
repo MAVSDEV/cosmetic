@@ -2,22 +2,26 @@ package com.hm.cosmeticmarket.repositiries.impl;
 
 import com.google.inject.Singleton;
 import com.hm.cosmeticmarket.models.Product;
-import com.hm.cosmeticmarket.models.sql.FilterType;
 import com.hm.cosmeticmarket.models.sql.OrderType;
 import com.hm.cosmeticmarket.models.sql.SortType;
 import com.hm.cosmeticmarket.repositiries.ProductRepository;
 import io.ebean.ExpressionList;
 import io.ebean.Finder;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link ProductRepository}
  */
+@Slf4j
 @Singleton
 public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> implements ProductRepository {
 
+    private static final String ID_PROPERTY = "id";
     private static final String NAME_PROPERTY = "name";
     private static final String BRIEF_DESCRIPTION = "brief_description";
     private static final String PRODUCT_CATEGORY_ID = "product_category_id";
@@ -39,10 +43,11 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
     @Override
     public List<Product> search(String searchTerm, SortType sortType, OrderType sortOrder, Map<String, String> filterMap) {
         String searchTermFormat = "%" + searchTerm + "%";
+        log.warn("-----searchTermFormat: " + searchTermFormat);
         ExpressionList<Product> productExpressionList = prepareWhereCondition();
         addFiltersToExpressionList(productExpressionList, filterMap);
         return productExpressionList
-                .or()
+                .disjunction()
                 .ilike("t1." + NAME_PROPERTY, searchTermFormat)
                 .ilike(NAME_PROPERTY, searchTermFormat)
                 .ilike(BRIEF_DESCRIPTION, searchTermFormat)
@@ -70,7 +75,8 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
 
     private void addFiltersToExpressionList(ExpressionList<Product> expressionList, Map<String, String> filterMap) {
         if (filterMap != null && !filterMap.isEmpty()) {
-            expressionList.ieq("t1." + NAME_PROPERTY, filterMap.get(FilterType.CATEGORY.getName()));
+            filterMap.forEach((key, value) -> expressionList.in("t1." + ID_PROPERTY,
+                    Arrays.stream(value.split(",")).map(Long::valueOf).collect(Collectors.toList())));
         }
     }
 }

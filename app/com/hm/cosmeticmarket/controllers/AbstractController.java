@@ -1,6 +1,7 @@
 package com.hm.cosmeticmarket.controllers;
 
 import com.hm.cosmeticmarket.services.CommonService;
+import lombok.extern.slf4j.Slf4j;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -8,6 +9,7 @@ import play.mvc.Result;
 /**
  * Abstract Controller.
  */
+@Slf4j
 public abstract class AbstractController <T> extends Controller {
 
     private final Class<T> type;

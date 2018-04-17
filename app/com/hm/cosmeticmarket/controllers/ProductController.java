@@ -6,10 +6,12 @@ import com.hm.cosmeticmarket.models.Product;
 import com.hm.cosmeticmarket.models.sql.FilterType;
 import com.hm.cosmeticmarket.models.sql.OrderType;
 import com.hm.cosmeticmarket.models.sql.SortType;
+import com.hm.cosmeticmarket.providers.S3Provider;
 import com.hm.cosmeticmarket.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import play.libs.Json;
 import play.mvc.BodyParser;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
@@ -30,14 +32,18 @@ public class ProductController extends AbstractController<Product> {
     private static final String SORT_PARAM = "sort";
     private static final String SEARCH_TERM_QUERY_PARAM = "term";
 
-    private static final String DEFAULT_PRODUCT_IMAGE_URL = "https://s3.amazonaws.com/cosmeticmarket/images/default-store-350x3501519226376420.jpg";
+    private static final String IMAGE_FILE_ATTR = "imageFile";
+
+    private static final String DEFAULT_PRODUCT_IMAGE_URL = "https://s3.amazonaws.com/cosmeticmarket/default-store-350x350.jpg";
 
     private final ProductService productService;
+    private final S3Provider s3Provider;
 
     @Inject
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, S3Provider s3Provider) {
         super(productService, Product.class);
         this.productService = productService;
+        this.s3Provider = s3Provider;
     }
 
     public Result search() {
@@ -53,11 +59,38 @@ public class ProductController extends AbstractController<Product> {
     @BodyParser.Of(ProductBodyParser.class)
     public Result save() {
         Product product = request().body().as(Product.class);
-        if (product.getMainImage() == null) {
-            product.setMainImage(DEFAULT_PRODUCT_IMAGE_URL);
-        }
+        product.setMainImage(DEFAULT_PRODUCT_IMAGE_URL);
         product.setCreationDate(new Date());
-        return super.save(product);
+        product.setUrl(product.getName().replace(" ", "-"));
+        Product savedProduct = productService.getByParamName("url", product.getUrl());
+
+        if (savedProduct != null) {
+            productService.update(savedProduct);
+        } else {
+            log.warn("------ product to save: == " + product);
+            productService.save(product);
+        }
+        savedProduct = productService.getByParamName("url", product.getUrl());
+        return ok(Json.toJson(savedProduct));
+    }
+
+    @BodyParser.Of(BodyParser.AnyContent.class)
+    public Result updateImage(String id) {
+        Http.MultipartFormData.FilePart<Object> image = request().body().asMultipartFormData().getFile(IMAGE_FILE_ATTR);
+        if (image != null) {
+            String imageUrl = s3Provider.uploadFile(image);
+            log.warn("----image url before saving: " + imageUrl);
+
+            Product product = productService.getById(id);
+            if (product != null && imageUrl != null) {
+                product.setMainImage(imageUrl);
+                productService.update(product);
+                return ok("Image " + imageUrl + " was updated!");
+            }
+        } else {
+            flash("error", "Missing file!");
+        }
+        return internalServerError("Image wasn't uploaded by some reason!");
     }
 
     @BodyParser.Of(ProductBodyParser.class)

@@ -78,6 +78,7 @@ public class ProductController extends AbstractController<Product> {
     public Result updateImage(String id) {
         Http.MultipartFormData.FilePart<Object> image = request().body().asMultipartFormData().getFile(IMAGE_FILE_ATTR);
         if (image != null) {
+            log.warn("---- image: " + image.getFilename());
             String imageUrl = s3Provider.uploadFile(image);
             log.warn("----image url before saving: " + imageUrl);
 

@@ -18,3 +18,5 @@ POST    /api/v1/product/aloe/save             com.hm.cosmeticmarket.controllers.
 POST    /api/v1/product/aloe/category/save    com.hm.cosmeticmarket.controllers.ProductCategoryController.save
 
 DELETE  /api/v1/product/aloe/delete/:id       com.hm.cosmeticmarket.controllers.ProductController.delete(id: String)
+
+GET     /upload-image.html                      controllers.Assets.at(path="/public/", file="upload-image.html")

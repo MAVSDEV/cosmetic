@@ -1,0 +1,32 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<form enctype="multipart/form-data">
+    <input type="file" id="image" name="image" />
+    <input type="submit" id="submit" name="" value="Upload" />
+</form>
+
+<script>
+$('#submit').click(function (event) {
+   event.preventDefault();
+   var file = $('#image').get(0).files[0];
+   var formData = new FormData();
+   formData.append('imageFile', file);
+   formData.append('id', '1');
+   formData.append('url', '1');
+   $.ajax({
+       url: '/api/v1/product/aloe/26/image',
+       data: formData,
+       type: 'PUT',
+       contentType: false,
+       processData: false,
+       success: function (data) {
+         //call your jQuery action here
+         alert('Upload completed: ' + data);
+       },
+       error: function (jqXHR, textStatus, errorThrown) {
+         alert(textStatus + ': ' + errorThrown);
+       }
+    });
+    return false;
+});
+</script>

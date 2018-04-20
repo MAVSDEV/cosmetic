@@ -67,6 +67,11 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
                 .findList();
     }
 
+    @Override
+    public void remove(String objectId) {
+        Product.find.nativeSql("delete from product where id=" + objectId).delete();
+    }
+
     private ExpressionList<Product> prepareWhereCondition() {
         return Product.find.query().select("*")
                 .fetch("productCategory")

@@ -9,7 +9,7 @@ public class SecurityController extends Controller {
     public Result checkToken() {
         String accessToken = request().body().as(String.class);
 
-        if("aloe-token!&(*1789".equals(accessToken)) {
+        if("aloe-token!(*1789".equals(accessToken)) {
             return ok();
         }
 

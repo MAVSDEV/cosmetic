@@ -10,17 +10,19 @@ $('#submit').click(function (event) {
    event.preventDefault();
    var file = $('#image').get(0).files[0];
    var formData = new FormData();
-   formData.append('imageFile', file);
+   formData.append('imageFile1', file);
+   formData.append('imageFile2', file);
+   formData.append('imageFile3', file);
+   formData.append('imageFile4', file);
    formData.append('id', '1');
    formData.append('url', '1');
    $.ajax({
-       url: '/api/v1/product/aloe/26/image',
+       url: '/api/v1/product/aloe/26/otherImages',
        data: formData,
        type: 'PUT',
        contentType: false,
        processData: false,
        success: function (data) {
-         //call your jQuery action here
          alert('Upload completed: ' + data);
        },
        error: function (jqXHR, textStatus, errorThrown) {

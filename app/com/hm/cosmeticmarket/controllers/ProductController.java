@@ -1,6 +1,7 @@
 package com.hm.cosmeticmarket.controllers;
 
 
+import com.google.common.collect.Lists;
 import com.hm.cosmeticmarket.controllers.parsers.ProductBodyParser;
 import com.hm.cosmeticmarket.models.Product;
 import com.hm.cosmeticmarket.models.sql.FilterType;
@@ -9,6 +10,7 @@ import com.hm.cosmeticmarket.models.sql.SortType;
 import com.hm.cosmeticmarket.providers.S3Provider;
 import com.hm.cosmeticmarket.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Http;
@@ -27,7 +29,7 @@ import static com.hm.cosmeticmarket.utils.CommonUtils.getOrDefault;
 @Singleton
 public class ProductController extends AbstractController<Product> {
 
-//    private static final String PAGE_PARAM = "page";
+    //    private static final String PAGE_PARAM = "page";
     private static final String FILTER_PARAM = "filter";
     private static final String SORT_PARAM = "sort";
     private static final String SEARCH_TERM_QUERY_PARAM = "term";
@@ -72,6 +74,32 @@ public class ProductController extends AbstractController<Product> {
         }
         savedProduct = productService.getByParamName("url", product.getUrl());
         return ok(Json.toJson(savedProduct));
+    }
+
+    @BodyParser.Of(BodyParser.AnyContent.class)
+    public Result updateOtherImages(String id) {
+        List<Http.MultipartFormData.FilePart<Object>> images = request().body().asMultipartFormData().getFiles();
+        if (!CollectionUtils.isEmpty(images)) {
+            List<String> newOtherImages = Lists.newArrayList();
+            images.forEach(image -> {
+                log.warn("---- image: " + image.getFilename());
+                String imageUrl = s3Provider.uploadFile(image);
+                log.warn("----image url before saving: " + imageUrl);
+                newOtherImages.add(imageUrl);
+            });
+
+            Product product = productService.getById(id);
+            if (product != null && !CollectionUtils.isEmpty(newOtherImages)) {
+                List<String> otherImages = product.getOtherImages();
+                otherImages.addAll(newOtherImages);
+                product.setOtherImages(otherImages);
+                productService.update(product);
+                return ok("Images were uploaded!");
+            }
+        } else {
+            flash("error", "Missing file!");
+        }
+        return internalServerError("Image wasn't uploaded by some reason!");
     }
 
     @BodyParser.Of(BodyParser.AnyContent.class)

@@ -49,11 +49,21 @@ public class ProductServiceImpl extends AbstractServiceImpl<Product> implements 
 
     @Override
     public void save(Product product) {
+        setExistingCategory(product);
+        productRepository.save(product);
+    }
+
+    @Override
+    public void update(Product product) {
+        setExistingCategory(product);
+        productRepository.update(product);
+    }
+
+    private void setExistingCategory(Product product) {
         String categoryName = product.getProductCategory().getName();
         ProductCategory category = productCategoryRepository.getByParamName(NAME_PARAM, categoryName);
         if (category != null) {
             product.setProductCategory(category);
         }
-        productRepository.save(product);
     }
 }

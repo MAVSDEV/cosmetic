@@ -19,6 +19,7 @@ import play.mvc.Result;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.hm.cosmeticmarket.utils.CommonUtils.getOrDefault;
 
@@ -35,6 +36,7 @@ public class ProductController extends AbstractController<Product> {
     private static final String SEARCH_TERM_QUERY_PARAM = "term";
 
     private static final String IMAGE_FILE_ATTR = "imageFile";
+    private static final String DELETED_IMAGES_ATTR = "deletedImages";
 
     private static final String DEFAULT_PRODUCT_IMAGE_URL = "https://s3.amazonaws.com/cosmeticmarket/default-store-350x350.jpg";
 
@@ -79,25 +81,29 @@ public class ProductController extends AbstractController<Product> {
     @BodyParser.Of(BodyParser.AnyContent.class)
     public Result updateOtherImages(String id) {
         List<Http.MultipartFormData.FilePart<Object>> images = request().body().asMultipartFormData().getFiles();
-        if (!CollectionUtils.isEmpty(images)) {
+        String[] deletedImages = request().body().asMultipartFormData().asFormUrlEncoded().get(DELETED_IMAGES_ATTR);
+        if (!CollectionUtils.isEmpty(images) || deletedImages != null) {
             List<String> newOtherImages = Lists.newArrayList();
             images.forEach(image -> {
-                log.warn("---- image: " + image.getFilename());
                 String imageUrl = s3Provider.uploadFile(image);
                 log.warn("----image url before saving: " + imageUrl);
                 newOtherImages.add(imageUrl);
             });
 
             Product product = productService.getById(id);
-            if (product != null && !CollectionUtils.isEmpty(newOtherImages)) {
-                List<String> otherImages = product.getOtherImages();
+            if (product != null) {
+                List<String> otherImages = product.getOtherImages() != null ? product.getOtherImages() : Lists.newArrayList();
+
+                // remove deleted images if exist
+                if (deletedImages != null) {
+                    otherImages.removeAll(Lists.newArrayList(deletedImages));
+                }
+
                 otherImages.addAll(newOtherImages);
-                product.setOtherImages(otherImages);
+                product.setOtherImages(otherImages.stream().filter(Objects::nonNull).collect(Collectors.toList()));
                 productService.update(product);
                 return ok("Images were uploaded!");
             }
-        } else {
-            flash("error", "Missing file!");
         }
         return internalServerError("Image wasn't uploaded by some reason!");
     }
@@ -124,7 +130,12 @@ public class ProductController extends AbstractController<Product> {
 
     @BodyParser.Of(ProductBodyParser.class)
     public Result update() {
-        return super.update();
+        Product product = request().body().as(Product.class);
+        if (product != null && product.getId() != null) {
+            productService.update(product);
+            return ok("Product was updated!");
+        }
+        return notFound("Product wasn't found!");
     }
 
     /**

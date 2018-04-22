@@ -5,8 +5,7 @@ import com.hm.cosmeticmarket.models.Product;
 import com.hm.cosmeticmarket.models.sql.OrderType;
 import com.hm.cosmeticmarket.models.sql.SortType;
 import com.hm.cosmeticmarket.repositiries.ProductRepository;
-import io.ebean.ExpressionList;
-import io.ebean.Finder;
+import io.ebean.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -69,7 +68,10 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product> imple
 
     @Override
     public void remove(String objectId) {
-        Product.find.nativeSql("delete from product where id=" + objectId).delete();
+        String sql = "DELETE FROM product WHERE id = :id";
+        SqlUpdate update = Ebean.createSqlUpdate(sql);
+        update.setParameter("id", Long.parseLong(objectId));
+        Product.db().execute(update);
     }
 
     private ExpressionList<Product> prepareWhereCondition() {
